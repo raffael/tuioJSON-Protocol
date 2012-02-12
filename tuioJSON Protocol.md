@@ -10,5 +10,6 @@ Developing Applications using HTML5 advances more and more. Using HTML5 means fa
 
 ## Specification
 All messages are in JSON format to enable HTML based clients to parse them in a fast, flexible way. There are only few kind of messages.
+In the file *tuioJSON Protocol Specification.idl* the whole protocol is specified formally.
 
 ## Usage examples & Implementations

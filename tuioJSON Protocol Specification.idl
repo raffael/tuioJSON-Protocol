@@ -1,0 +1,85 @@
+/**
+ * Conventions for all messages:
+ *
+ *	- coordinates are percental from 0 to 1
+ *	- attribute names are in Camel Case notation
+ */
+
+/**
+ * A CoordinateObject is an object that only stores x/y information
+ */
+interface CoordinateObject {
+	readonly attribute float	x;				[0...1.0]
+	readonly attribute float	y;				[0...1.0]
+};
+
+/**
+ * A WordObject is an object that contains both a word and a confidence for this word
+ */
+interface WordObject {
+	readonly attribute string	word;			String
+	readonly attribute float	confidence;		[0...1.0]
+};
+
+/**
+ * All tuioJSON messages implement the following structure
+ */
+interface tuioJSONMessage {
+
+	readonly attribute int		id;				Integer
+	readonly attribute string	type;			['touch', 'pen', 'gesture']
+	
+	{if type==touch}
+	readonly attribute string	state;			['start', 'move', 'end']
+	readonly attribute float	x;				[0...1.0]
+	readonly attribute float	y;				[0...1.0]
+	{endif type==touch}
+
+	
+	{if type==gesture}
+	readonly attribute string	gestureType;	['gesture', 'drag', 'rotate', 'scale']
+	readonly attribute string	state;			['start', 'change', 'end']
+	{if gestureType==rotate or gestureType==gesture}
+	readonly attribute float	rotation;		Float // absolute in degrees where 0 is the rotation at the beginning of the gesture and positive is clockwise
+	{endif gestureType==rotate or gestureType==gesture}
+	{if gestureType==scale or gestureType==gesture}
+	readonly attribute float	scale;			Float // absolute where 1.0 is the scale at the beginning of the gesture
+	{endif gestureType==scale or gestureType==gesture}
+	{if gestureType==drag}
+	readonly attribute float	x;				[0...1.0]
+	readonly attribute float	y;				[0...1.0]	
+	readonly attribute float	translationX;	[0...1.0]
+	readonly attribute float	translationX;	[0...1.0]	
+	{else}
+	readonly attribute Array	touches;		Array of CoordinateObject	// positions of all current touches on the screen
+	readonly attribute float 	*pivotX;		[0...1.0]
+	readonly attribute float	*pivotY;		[0...1.0]
+	{endif gestureType==drag}
+	
+	{endif type==gesture}
+
+
+	{if type==pen}
+	readonly attribute string	penType;		['point', 'shape', 'handwriting']
+	
+	{if penType==point}
+	readonly attribute float	x;				[0...1.0]
+	readonly attribute float	y;				[0...1.0]
+	readonly attribute string	state;			['start', 'move', 'end']
+	{endif penType==point}
+	
+	{if penType==shape}
+	(...) // TO DO!
+	{endif penType==shape}
+	
+	{if penType==handwriting}
+	readonly attribute string	state;			['processing', 'result']
+	readonly attribute float	*x;				[0...1.0] // not final
+	readonly attribute float	*y;				[0...1.0] // not final
+	{if state==result}
+	readonly attribute Array	words;			Array of WordObject
+	{endif state==result}
+	{endif penType==handwriting}
+	
+	{endif type==pen}
+};
