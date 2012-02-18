@@ -100,14 +100,13 @@ messages['dragchange'] = {
 // Pen
 
 /**
- * A simple Pen point message
+ * A simple Pen message
  * Requires:	a 'move' or 'end' message for this id will be sent in the future
  * Triggers:	a 'mousedown' event (by default)
  */
 msg = {
 	id:				i++,
 	type:			'pen',
-	penType:		'point',
 	state:			'start',
 	x:				0.5,
 	y:				0.5
@@ -120,8 +119,7 @@ msg = {
  */
 msg = {
 	id:				i++,
-	type:			'pen',
-	penType:		'handwriting',
+	type:			'handwriting',
 	state:			'processing'
 }
 
@@ -132,8 +130,7 @@ msg = {
  */
 msg = {
 	id:				i++,
-	type:			'pen',
-	penType:		'handwriting',
+	type:			'handwriting',
 	state:			'result',
 	words:			[{word: 'hello', confidence: 0.8},{word: 'hlllo', confidence: 0.4}]
 }

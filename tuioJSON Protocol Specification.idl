@@ -21,13 +21,21 @@ interface WordObject {
 	readonly attribute float	confidence;		[0...1.0]
 };
 
+
+/**
+ * A ShapeObject is an object that contains a data representation of a recognized shape
+ */
+interface WordObject {
+	(...) // TO DO!
+};
+
 /**
  * All tuioJSON messages implement the following structure
  */
 interface tuioJSONMessage {
 
 	readonly attribute int		id;				Integer
-	readonly attribute string	type;			['touch', 'pen', 'gesture']
+	readonly attribute string	type;			['touch', 'pen', 'gesture', 'shape', 'handwriting']
 	
 	{if type==touch}
 	readonly attribute string	state;			['start', 'move', 'end']
@@ -58,28 +66,24 @@ interface tuioJSONMessage {
 	
 	{endif type==gesture}
 
-
-	{if type==pen}
-	readonly attribute string	penType;		['point', 'shape', 'handwriting']
 	
-	{if penType==point}
+	{if type==pen}
 	readonly attribute float	x;				[0...1.0]
 	readonly attribute float	y;				[0...1.0]
 	readonly attribute string	state;			['start', 'move', 'end']
-	{endif penType==point}
+	{endif type==pen}
 	
-	{if penType==shape}
+	{if type==shape}
+	readonly attribute Array	shapes;			Array of ShapeObject
 	(...) // TO DO!
-	{endif penType==shape}
+	{endif type==shape}
 	
-	{if penType==handwriting}
+	{if type==handwriting}
 	readonly attribute string	state;			['processing', 'result']
 	readonly attribute float	*x;				[0...1.0] // not final
 	readonly attribute float	*y;				[0...1.0] // not final
 	{if state==result}
 	readonly attribute Array	words;			Array of WordObject
 	{endif state==result}
-	{endif penType==handwriting}
-	
-	{endif type==pen}
+	{endif type==handwriting}
 };
