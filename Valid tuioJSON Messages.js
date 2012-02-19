@@ -134,3 +134,25 @@ msg = {
 	state:			'result',
 	words:			[{word: 'hello', confidence: 0.8},{word: 'hlllo', confidence: 0.4}]
 }
+
+
+/**
+ * A Pen message sequence to test Pen input on a specific element
+ * (Redefine the start positions to fit your needs)
+ */
+var state = 'start', x=0.32, y=0.26, counter = 0, countMessages = 80;
+function postMessage(end){
+	if (countMessages==counter) state='end';
+	var msg = {
+		type: 'pen',
+		x: x,
+		y: y,
+		state: state
+	}
+	parserProxy.parse(msg);
+	if (state=='start') state = 'move';
+	x+=0.001;
+	y+=0.001;
+	if (counter++<countMessages) setTimeout(function(){postMessage();},15);
+}
+postMessage();
