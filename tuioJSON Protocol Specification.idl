@@ -1,9 +1,23 @@
 /**
- * Conventions for all messages:
+ * tuioJSON Protocol Specification version 1.0
+ * https://github.com/raffael-me/tuioJSON-Protocol
  *
- *	- coordinates are percental from 0 to 1
+ * Licensed under the MIT license.
+ * 
+ * This document represents the current state of the tuioJSON Protocol Specification,
+ * a uni-directional message exchange format to transmit Touch and Pen related interaction
+ * events to Browsers, that do not support Touch and Pen interaction by default.
+ * The notation below is a variation of the W3C Interface Definition Language.
+ *
+ * A tuioJSON Protocol based parser can be found on
+ * https://github.com/raffael-me/tuioJSON-Parser
+ *  
+ * Conventions for all messages:
+ *  - all messages are JSON encoded JavaScript objects
+ *	- coordinates are percental from 0.0 to 1.0
  *	- attribute names are in Camel Case notation
  */
+
 
 /**
  * A CoordinateObject is an object that only stores x/y information
@@ -25,8 +39,9 @@ interface WordObject {
 /**
  * A ShapeObject is an object that contains a data representation of a recognized shape
  */
-interface WordObject {
-	(...) // TO DO!
+interface ShapeObject {
+	readonly attribute string	type;			String
+	(...) // corresponding shape attributes
 };
 
 /**
@@ -75,7 +90,6 @@ interface tuioJSONMessage {
 	
 	{if type==shape}
 	readonly attribute Array	shapes;			Array of ShapeObject
-	(...) // TO DO!
 	{endif type==shape}
 	
 	{if type==handwriting}

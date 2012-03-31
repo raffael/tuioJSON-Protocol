@@ -61,7 +61,7 @@ interface DragEvent : GestureEvent {
  * @dispatchedAs	penstart, penmove, penend, mousedown, mousemove, mouseup
  */
 interface PenEvent : UIEvent {
-	readonly attribute longint		identifier;
+    readonly attribute longint		identifier;
     readonly attribute TouchList	touches;
     readonly attribute TouchList	targetTouches;
     readonly attribute TouchList	changedTouches;
@@ -82,7 +82,7 @@ interface SinglePenEvent : MouseEvent {}
 /**
  * @author			Raffael Hannemann
  * @description		A Shape event is triggered as soon as a Pen interaction is interpreted as a shape. Since multiple Pens might be active at the same time, an identifier is stored to distinguish them.
- * @dispatchedAs	penshape
+ * @dispatchedAs	shapeprocessing, shaperesult
  */
 interface ShapeEvent : UIEvent {
     readonly attribute ShapeList	shapes;
@@ -113,8 +113,8 @@ interface WordList {
  * @description		A Word is an object containing both a string that represents a recognized word and the corresponding confidence level.
  */
 interface Word {
-	readonly attribute String	word;
-	readonly attribute Float	confidence;
+    readonly attribute String	word;
+    readonly attribute Float	confidence;
 };
 
 /**
@@ -122,8 +122,8 @@ interface Word {
  * @description		A ShapeList is a list of Shape objects
  */
 interface ShapeList {
-	readonly attribute unsigned long length;
-	getter Shape  item (unsigned long index);
+    readonly attribute unsigned long length;
+    getter Shape  item (unsigned long index);
 }
 
 /**
@@ -131,6 +131,6 @@ interface ShapeList {
  * @description		A Shape is an object containing both a string to mark the recognized shape and the corresponding confidence level.
  */
 interface Shape {
-	readonly attribute String	word;
-	readonly attribute Float	confidence;
+	readonly attribute String	type;
+	(…) // corresponding shape attributes
 };
